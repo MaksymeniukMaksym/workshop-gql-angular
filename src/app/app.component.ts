@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,21 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'workshop-gql-angular';
+  constructor(private apollo: Apollo) {
+
+  }
+  ngOnInit(): void {
+    this.apollo.watchQuery({
+      query: gql`
+      {
+        allSets{
+          id,
+          name,
+          numParts
+        }
+      }`
+    }).valueChanges.subscribe((res)=>{
+      console.log(res)
+    })
+  }
 }
